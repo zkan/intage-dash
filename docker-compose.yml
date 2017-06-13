@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:9.6.2-alpine
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+  app:
+    image: intage-dash:unstable
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile-local
+    volumes:
+      - ./:/app
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    entrypoint: /entrypoint.sh
+    env_file: .env
+    labels:
+      description: "dash"

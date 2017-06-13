@@ -1,0 +1,18 @@
+FROM python:3.6.1
+
+RUN apt update && apt install -y netcat
+
+RUN pip install Django==1.11.2 \
+    flake8==3.3.0 \
+    flake8-print==2.0.2 \
+    psycopg2==2.7.1
+
+ENV APPLICATION_ROOT /app/
+
+RUN mkdir $APPLICATION_ROOT
+COPY ./requirements $APPLICATION_ROOT\requirements
+COPY ./compose/django/entrypoint-local.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+WORKDIR $APPLICATION_ROOT
+
+RUN pip install -r requirements/local.txt
