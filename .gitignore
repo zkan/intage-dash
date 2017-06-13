@@ -102,3 +102,6 @@ ENV/
 
 # Sqlite
 *.sqlite3
+
+# PostgreSQL
+postgres-data/
