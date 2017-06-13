@@ -105,3 +105,6 @@ ENV/
 
 # PostgreSQL
 postgres-data/
+
+# Vim
+*.swp
