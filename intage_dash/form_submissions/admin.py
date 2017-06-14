@@ -8,4 +8,5 @@ class FormResponseAdmin(admin.ModelAdmin):
     list_display = (
         'typeform',
         'answers',
+        'token',
     )

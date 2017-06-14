@@ -31,3 +31,6 @@ class FormResponseAdminTest(TestCase):
 
         expected = '<div class="text"><a href="?o=2">Answers</a></div>'
         self.assertContains(response, expected, count=1, status_code=200)
+
+        expected = '<div class="text"><a href="?o=3">Token</a></div>'
+        self.assertContains(response, expected, count=1, status_code=200)
