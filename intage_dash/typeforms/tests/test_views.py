@@ -1,5 +1,6 @@
 from unittest.mock import patch
 
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 from ..models import Typeform
@@ -37,7 +38,12 @@ class TypeformSyncView(TestCase):
             uid=self.typeform_uid,
             payload={'data': ''}
         )
-        self.url = f'/typeforms/{self.typeform_uid}/sync/'
+        self.url = reverse(
+            'typeform_sync',
+            kwargs={
+                'typeform_uid': self.typeform_uid
+            }
+        )
 
     @patch('typeforms.views.TypeformDataAPI')
     def test_sync_view_should_be_accessible(self, mock):
