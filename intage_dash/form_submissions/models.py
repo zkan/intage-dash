@@ -13,3 +13,8 @@ class FormResponse(models.Model):
         blank=False,
         default={}
     )
+    token = models.CharField(
+        null=False,
+        blank=False,
+        max_length=100
+    )
