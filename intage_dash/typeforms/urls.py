@@ -4,5 +4,6 @@ from .views import TypeformSyncView
 
 
 urlpatterns = [
-    url(r'(?P<typeform_uid>[0-9A-Za-z\-]+)/sync/', TypeformSyncView.as_view(), name='typeform_sync'),
+    url(r'(?P<typeform_uid>[0-9A-Za-z\-]+)/sync/',
+        TypeformSyncView.as_view(), name='typeform_sync'),
 ]

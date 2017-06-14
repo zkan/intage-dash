@@ -48,7 +48,7 @@ class TypeformSyncView(TestCase):
     @patch('typeforms.views.TypeformDataAPI')
     def test_sync_view_should_call_get_form_data(self, mock):
         mock.return_value.get_form_data.return_value = self.results
-        response = self.client.get(self.url)
+        self.client.get(self.url)
         mock.return_value.get_form_data.assert_called_once_with(
             self.typeform_uid
         )
@@ -56,7 +56,7 @@ class TypeformSyncView(TestCase):
     @patch('typeforms.views.TypeformDataAPI')
     def test_sync_view_should_save_typeform_persistently(self, mock):
         mock.return_value.get_form_data.return_value = self.results
-        response = self.client.get(self.url)
+        self.client.get(self.url)
 
         typeforms = Typeform.objects.get(uid=self.typeform_uid)
 
