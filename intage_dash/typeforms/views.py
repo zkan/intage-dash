@@ -3,6 +3,7 @@ from django.views.generic import View
 
 from .api import TypeformDataAPI
 from .models import Typeform
+from form_submissions.models import FormResponse
 
 
 class TypeformSyncView(View):
@@ -11,7 +12,14 @@ class TypeformSyncView(View):
 
         typeform_data_api = TypeformDataAPI()
         results = typeform_data_api.get_form_data(typeform.uid)
+
         typeform.payload = results
         typeform.save()
+
+        for each in results['responses']:
+            FormResponse.objects.create(
+                typeform=typeform,
+                answers=each['answers']
+            )
 
         return HttpResponse()
