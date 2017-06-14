@@ -13,3 +13,6 @@ class Typeform(models.Model):
         blank=False,
         default={'data': ''}
     )
+
+    def __str__(self):
+        return self.uid
