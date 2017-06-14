@@ -11,5 +11,5 @@ class Typeform(models.Model):
     payload = JSONField(
         null=False,
         blank=False,
-        default=[]
+        default={'data': ''}
     )
