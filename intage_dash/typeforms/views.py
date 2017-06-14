@@ -19,7 +19,8 @@ class TypeformSyncView(View):
         for each in results['responses']:
             FormResponse.objects.create(
                 typeform=typeform,
-                answers=each['answers']
+                answers=each['answers'],
+                token=each['token']
             )
 
         return HttpResponse()

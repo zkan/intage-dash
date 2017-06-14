@@ -22,10 +22,12 @@ class TypeformSyncView(TestCase):
             'responses': [
                 {
                     'answers': {'rating_53456466': '3'},
+                    'token': '99a9beebfe0bc18e0d95a8aexe670cd6',
                     'completed': '1',
                 },
                 {
                     'answers': {'rating_53456466': '2'},
+                    'token': '46a9beebfe0bc18e0d95a8aeb0670cd6',
                     'completed': '1',
                 }
             ],
@@ -93,18 +95,24 @@ class TypeformSyncView(TestCase):
         self.client.get(self.url)
 
         typeform = Typeform.objects.get(uid=self.typeform_uid)
-        form_responses = FormResponse.objects.filter(typeform=typeform)
+        form_responses = FormResponse.objects.filter(
+            typeform=typeform
+        ).order_by('id')
 
         self.assertEqual(len(form_responses), 2)
 
-        expected = {
-            'list_53368385_choice': 'Nonthaburi',
-            'rating_53368555': '5',
-        }
-        self.assertDictEqual(form_responses[0].answers, expected)
-
-        expected = {
+        expected_answers = {
             'list_53368385_choice': 'BKK',
             'rating_53368555': '7',
         }
-        self.assertDictEqual(form_responses[1].answers, expected)
+        expected_token = 'a3e7d92cb286fd9257e3a8c309495d1f'
+        self.assertDictEqual(form_responses[0].answers, expected_answers)
+        self.assertEqual(form_responses[0].token, expected_token)
+
+        expected_answers = {
+            'list_53368385_choice': 'Nonthaburi',
+            'rating_53368555': '5',
+        }
+        expected_token = '46a9beebfe0bc18e0d95a8aeb0670cd6'
+        self.assertDictEqual(form_responses[1].answers, expected_answers)
+        self.assertEqual(form_responses[1].token, expected_token)
