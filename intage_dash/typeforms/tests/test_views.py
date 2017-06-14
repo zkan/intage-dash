@@ -98,13 +98,13 @@ class TypeformSyncView(TestCase):
         self.assertEqual(len(form_responses), 2)
 
         expected = {
-            'list_53368385_choice': 'BKK',
-            'rating_53368555': '7',
-        }
-        self.assertEqual(form_responses[0].answers, expected)
-
-        expected = {
             'list_53368385_choice': 'Nonthaburi',
             'rating_53368555': '5',
         }
-        self.assertEqual(form_responses[1].answers, expected)
+        self.assertDictEqual(form_responses[0].answers, expected)
+
+        expected = {
+            'list_53368385_choice': 'BKK',
+            'rating_53368555': '7',
+        }
+        self.assertDictEqual(form_responses[1].answers, expected)
