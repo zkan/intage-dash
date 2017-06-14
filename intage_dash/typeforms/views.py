@@ -17,10 +17,13 @@ class TypeformSyncView(View):
         typeform.save()
 
         for each in results['responses']:
-            FormResponse.objects.create(
-                typeform=typeform,
-                answers=each['answers'],
-                token=each['token']
-            )
+            try:
+                FormResponse.objects.get(token=each['token'])
+            except FormResponse.DoesNotExist:
+                FormResponse.objects.create(
+                    typeform=typeform,
+                    answers=each['answers'],
+                    token=each['token']
+                )
 
         return HttpResponse()

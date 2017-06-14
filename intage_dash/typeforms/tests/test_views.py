@@ -116,3 +116,41 @@ class TypeformSyncView(TestCase):
         expected_token = '46a9beebfe0bc18e0d95a8aeb0670cd6'
         self.assertDictEqual(form_responses[1].answers, expected_answers)
         self.assertEqual(form_responses[1].token, expected_token)
+
+    @patch('typeforms.views.TypeformDataAPI')
+    def test_sync_view_should_not_save_answer_if_get_same_token(self, mock):
+        payload = {
+            'responses': [
+                {
+                    'answers': {
+                        'list_53368385_choice': 'BKK',
+                        'rating_53368555': '7',
+                    },
+                    'token': 'a3e7d92cb286fd9257e3a8c309495d1f'
+                },
+                {
+                    'answers': {
+                        'list_53368385_choice': 'BKK',
+                        'rating_53368555': '7',
+                    },
+                    'token': 'a3e7d92cb286fd9257e3a8c309495d1f'
+                }
+            ]
+        }
+        mock.return_value.get_form_data.return_value = payload
+        self.client.get(self.url)
+
+        typeform = Typeform.objects.get(uid=self.typeform_uid)
+        form_responses = FormResponse.objects.filter(
+            typeform=typeform
+        ).order_by('id')
+
+        self.assertEqual(len(form_responses), 1)
+
+        expected_answers = {
+            'list_53368385_choice': 'BKK',
+            'rating_53368555': '7',
+        }
+        expected_token = 'a3e7d92cb286fd9257e3a8c309495d1f'
+        self.assertDictEqual(form_responses[0].answers, expected_answers)
+        self.assertEqual(form_responses[0].token, expected_token)
