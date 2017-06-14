@@ -10,6 +10,8 @@ class TypeformSyncView(View):
         typeform = Typeform.objects.get(uid=typeform_uid)
 
         typeform_data_api = TypeformDataAPI()
-        typeform_data_api.get_form_data(typeform.uid)
+        results = typeform_data_api.get_form_data(typeform.uid)
+        typeform.payload = results
+        typeform.save()
 
         return HttpResponse()
