@@ -7,7 +7,7 @@ from ..models import Typeform
 from form_submissions.models import FormResponse
 
 
-class TypeformSyncView(TestCase):
+class TypeformSyncViewTest(TestCase):
     def setUp(self):
         self.typeform_uid = 'HQxDoM'
         self.results = {
