@@ -47,6 +47,26 @@ class DashboardView(TemplateView):
                 )
             charts.append(chart)
 
+        chart = {'data': []}
+        chart['id'] = 'group_others'
+        chart['label'] = 'Others'
+        questions_in_no_group = df_questions[
+            df_questions['group'].isnull() &
+            df_questions['id'].str.contains('rating_')
+        ][['id', 'question']]
+        question_list = zip(
+            questions_in_no_group.id,
+            questions_in_no_group.question
+        )
+        for idx, question in question_list:
+            chart['data'].append(
+                [
+                    question,
+                    df_answers[idx].mean()
+                ]
+            )
+        charts.append(chart)
+
         return render(
             request,
             self.template_name,

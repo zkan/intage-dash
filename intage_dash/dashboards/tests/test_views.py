@@ -11,7 +11,8 @@ class DashboardViewTest(TestCase):
         token = 'e65c13cb2a33255ff8d49994c8971e44'
         answers = {
             'rating_53456466': '3',
-            'rating_53701739': '4'
+            'rating_53701739': '4',
+            'rating_53748628': '9',
         }
         payload = {
             'questions': [
@@ -36,7 +37,12 @@ class DashboardViewTest(TestCase):
                     'group': 'group_53701933',
                     'field_id': 53701739,
                     'question': 'Test another rating'
-                }
+                },
+                {
+                    'id': 'rating_53748628',
+                    'field_id': 53748628,
+                    'question': 'Extra question'
+                },
             ],
             'responses': [
                 {
@@ -114,6 +120,25 @@ class DashboardViewTest(TestCase):
         self.assertContains(response, expected, status_code=200)
 
         expected = '<div id="group_53701933"></div>'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = 'google.charts.setOnLoadCallback(group_others);'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = 'function group_others()'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = '[\'Extra question\', 9.0],'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = 'title: "Others",'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = 'var chart = new google.visualization.ColumnChart' \
+            '(document.getElementById(\'group_others\'));'
+        self.assertContains(response, expected, status_code=200)
+
+        expected = '<div id="group_others"></div>'
         self.assertContains(response, expected, status_code=200)
 
 
