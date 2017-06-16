@@ -115,3 +115,18 @@ class DashboardViewTest(TestCase):
 
         expected = '<div id="group_53701933"></div>'
         self.assertContains(response, expected, status_code=200)
+
+
+class DashboardBranchViewTest(TestCase):
+    def setUp(self):
+        typeform_uid = 'iSEzWG'
+        self.url = reverse(
+            'dashboard_branch',
+            kwargs={
+                'typeform_uid': typeform_uid
+            }
+        )
+
+    def test_dashboard_branch_view_should_be_accessible(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)

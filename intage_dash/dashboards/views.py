@@ -54,3 +54,13 @@ class DashboardView(TemplateView):
                 'charts': charts
             }
         )
+
+
+class DashboardBranchView(TemplateView):
+    template_name = 'dashboard_branch.html'
+
+    def get(self, request, typeform_uid):
+        return render(
+            request,
+            self.template_name
+        )
