@@ -1,3 +1,5 @@
+import copy
+
 from django.http import HttpResponse
 from django.views.generic import View
 
@@ -7,6 +9,14 @@ from form_submissions.models import FormResponse
 
 
 class TypeformSyncView(View):
+    def _convert_rating_answers_to_integer(self, raw_answers):
+        answers = copy.deepcopy(raw_answers)
+        for each in answers:
+            if 'rating_' in each:
+                answers[each] = int(answers[each])
+
+        return answers
+
     def get(self, request, typeform_uid):
         typeform = Typeform.objects.get(uid=typeform_uid)
 
@@ -20,9 +30,12 @@ class TypeformSyncView(View):
             try:
                 FormResponse.objects.get(token=each['token'])
             except FormResponse.DoesNotExist:
+                answers = self._convert_rating_answers_to_integer(
+                    each['answers']
+                )
                 FormResponse.objects.create(
                     typeform=typeform,
-                    answers=each['answers'],
+                    answers=answers,
                     token=each['token']
                 )
 

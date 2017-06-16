@@ -33,7 +33,9 @@ class TypeformSyncViewTest(TestCase):
             ],
             'stats': {
                 'responses': {
-                    'completed': 2, 'showing': 2, 'total': 2
+                    'completed': 2,
+                    'showing': 2,
+                    'total': 2
                 }
             }
         }
@@ -103,7 +105,7 @@ class TypeformSyncViewTest(TestCase):
 
         expected_answers = {
             'list_53368385_choice': 'BKK',
-            'rating_53368555': '7',
+            'rating_53368555': 7,
         }
         expected_token = 'a3e7d92cb286fd9257e3a8c309495d1f'
         self.assertDictEqual(form_responses[0].answers, expected_answers)
@@ -111,7 +113,7 @@ class TypeformSyncViewTest(TestCase):
 
         expected_answers = {
             'list_53368385_choice': 'Nonthaburi',
-            'rating_53368555': '5',
+            'rating_53368555': 5,
         }
         expected_token = '46a9beebfe0bc18e0d95a8aeb0670cd6'
         self.assertDictEqual(form_responses[1].answers, expected_answers)
@@ -149,7 +151,7 @@ class TypeformSyncViewTest(TestCase):
 
         expected_answers = {
             'list_53368385_choice': 'BKK',
-            'rating_53368555': '7',
+            'rating_53368555': 7,
         }
         expected_token = 'a3e7d92cb286fd9257e3a8c309495d1f'
         self.assertDictEqual(form_responses[0].answers, expected_answers)
