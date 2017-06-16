@@ -18,10 +18,6 @@ class DashboardView(TemplateView):
 
         form_responses = FormResponse.objects.filter(typeform=typeform)
         answers = [each.answers for each in form_responses if each.answers]
-        for answer in answers:
-            for each in answer:
-                if 'rating_' in each:
-                    answer[each] = int(answer[each])
         df_answers = pd.DataFrame(answers)
 
         question_groups = list(filter(
