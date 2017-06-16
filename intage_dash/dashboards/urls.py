@@ -4,5 +4,6 @@ from .views import DashboardView
 
 
 urlpatterns = [
-    url(r'', DashboardView.as_view(), name='dashboard'),
+    url(r'(?P<typeform_uid>[0-9A-Za-z\-]+)/',
+        DashboardView.as_view(), name='dashboard'),
 ]

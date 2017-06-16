@@ -1,5 +1,34 @@
 <html>
   <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {"packages": ["corechart"]});
+
+      {% for chart in charts %}
+        google.charts.setOnLoadCallback({{ chart.id }});
+        function {{ chart.id }}() {
+          var data = google.visualization.arrayToDataTable([
+            ["Overall", "Score"],
+            {% for each in chart.data %}
+              {{ each|safe }},
+            {% endfor %}
+          ]);
+          var options = {
+            title: "{{ chart.label }}",
+            height: 500,
+            hAxis: {slantedText: true, slantedTextAngle: 45},
+          };
+          var chart = new google.visualization.ColumnChart(document.getElementById('{{ chart.id }}'));
+          chart.draw(data, options);
+        }
+      {% endfor %}
+    </script>
   </head>
+  <body>
+    <div class="container">
+      {% for each in charts %}
+        <div id="{{ each.id }}"></div>
+      {% endfor %}
+    </div>
+  </body>
 </html>
