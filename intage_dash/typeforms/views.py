@@ -33,10 +33,11 @@ class TypeformSyncView(View):
                 answers = self._convert_rating_answers_to_integer(
                     each['answers']
                 )
-                FormResponse.objects.create(
-                    typeform=typeform,
-                    answers=answers,
-                    token=each['token']
-                )
+                if answers:
+                    FormResponse.objects.create(
+                        typeform=typeform,
+                        answers=answers,
+                        token=each['token']
+                    )
 
         return HttpResponse()

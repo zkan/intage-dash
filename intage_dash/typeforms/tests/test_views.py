@@ -156,3 +156,38 @@ class TypeformSyncViewTest(TestCase):
         expected_token = 'a3e7d92cb286fd9257e3a8c309495d1f'
         self.assertDictEqual(form_responses[0].answers, expected_answers)
         self.assertEqual(form_responses[0].token, expected_token)
+
+    @patch('typeforms.views.TypeformDataAPI')
+    def test_sync_view_should_not_save_empty_answer(self, mock):
+        payload = {
+            'responses': [
+                {
+                    'answers': {},
+                    'token': 'z5e7d92cb286fd9257e3a8c309495d1g'
+                },
+                {
+                    'answers': {
+                        'list_53368385_choice': 'BKK',
+                        'rating_53368555': '7',
+                    },
+                    'token': 'a3e7d92cb286fd9257e3a8c309495d1f'
+                }
+            ]
+        }
+        mock.return_value.get_form_data.return_value = payload
+        self.client.get(self.url)
+
+        typeform = Typeform.objects.get(uid=self.typeform_uid)
+        form_responses = FormResponse.objects.filter(
+            typeform=typeform
+        ).order_by('id')
+
+        self.assertEqual(len(form_responses), 1)
+
+        expected_answers = {
+            'list_53368385_choice': 'BKK',
+            'rating_53368555': 7,
+        }
+        expected_token = 'a3e7d92cb286fd9257e3a8c309495d1f'
+        self.assertDictEqual(form_responses[0].answers, expected_answers)
+        self.assertEqual(form_responses[0].token, expected_token)
