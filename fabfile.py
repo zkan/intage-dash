@@ -24,7 +24,6 @@ def create_project_folder():
     run('mkdir -p intage-dash')
 
 
-@task
 def build_app():
     command = 'docker build -t intage-dash:live -f compose/django/Dockerfile-production .'
     local(command)
@@ -36,7 +35,6 @@ def build_app():
     local(command)
 
 
-@task
 def build_nginx():
     command = 'docker build -t intage-dash-nginx:live -f compose/nginx/Dockerfile compose/nginx'
     local(command)
@@ -48,8 +46,7 @@ def build_nginx():
     local(command)
 
 
-@task
-def deploy():
+def merge_into_master():
     command = 'git checkout master'
     local(command)
 
@@ -58,6 +55,13 @@ def deploy():
 
     command = 'git push origin master'
     local(command)
+
+
+@task
+def deploy():
+    merge_into_master()
+    build_app()
+    build_nginx()
 
     create_project_folder()
 
@@ -78,3 +82,6 @@ def deploy():
 
         command = 'docker-compose -f docker-compose.production.yml up -d'
         sudo(command)
+
+    command = 'git checkout develop'
+    local(command)
