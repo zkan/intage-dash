@@ -1,0 +1,13 @@
+.env
+*.swp
+.git*
+*.md
+**/*.pyc
+**/*/__pycache__/
+postgres-data/
+venv*
+tox.ini
+LICENSE
+docs/
+fabfile.py*
+docker-compose.*
