@@ -1,2 +1,1 @@
-# intage-dash
-Intage Dash
+# Intage Dash
