@@ -109,3 +109,6 @@ postgres-data/
 
 # Vim
 *.swp
+
+# Django
+static/
