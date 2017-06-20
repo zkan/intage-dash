@@ -241,7 +241,7 @@ class DashboardBranchViewTest(TestCase):
             '{"packages": ["corechart"]});'
         self.assertContains(response, expected, status_code=200)
 
-        expected = '[\'Score\', \'Phuket\', \'BKK\']'
+        expected = '[\'Score\', \'Phuket (1)\', \'BKK (1)\']'
         self.assertContains(response, expected, count=3, status_code=200)
 
         expected = 'google.charts.setOnLoadCallback(group_53700090);'
