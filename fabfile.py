@@ -50,6 +50,15 @@ def build_nginx():
 
 @task
 def deploy():
+    command = 'git checkout master'
+    local(command)
+
+    command = 'git merge develop'
+    local(command)
+
+    command = 'git push origin master'
+    local(command)
+
     create_project_folder()
 
     command = 'docker login'
