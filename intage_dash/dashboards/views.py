@@ -150,10 +150,9 @@ class DashboardBranchView(TemplateView):
 
         branches_with_number = []
         for each in branches:
-            branches_with_number.append(each + ' (' + \
-                str(df_answers[
-                    df_answers[branch_column_name] == each
-                ].shape[0]) + ')')
+            branches_with_number.append(each + ' (' + str(df_answers[
+                df_answers[branch_column_name] == each
+            ].shape[0]) + ')')
         branches = ['Score'] + branches_with_number
 
         return render(
